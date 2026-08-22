@@ -1,5 +1,5 @@
 import { useCallback, useState } from "react";
-import { useAppDispatch } from "../../../app/hooks";
+import { useAppDispatch } from "../../../app/store";
 import type { ApiProduct } from "../productThunks";
 import { deleteProduct } from "../productThunks";
 

@@ -1,8 +1,10 @@
-import { Outlet } from "react-router-dom";
+import { HashRouter, Navigate, Outlet, Route, Routes } from "react-router-dom";
+import { PosPage } from "../features/pos/PosPage";
+import { ProductPage } from "../features/product/ProductPage";
 import { TopBar } from "../features/topbar/TopBar";
 import { useInitialData } from "./useInitialData";
 
-const App = () => {
+const Layout = () => {
     useInitialData();
 
     return (
@@ -14,5 +16,18 @@ const App = () => {
         </div>
     );
 };
+
+// Hash router porque la app va a correr en Electron sobre file://
+const App = () => (
+    <HashRouter>
+        <Routes>
+            <Route path="/" element={<Layout />}>
+                <Route index element={<Navigate to="/pos" replace />} />
+                <Route path="pos" element={<PosPage />} />
+                <Route path="products" element={<ProductPage />} />
+            </Route>
+        </Routes>
+    </HashRouter>
+);
 
 export default App;

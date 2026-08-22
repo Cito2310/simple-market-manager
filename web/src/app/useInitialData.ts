@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { getCategories } from "../features/category/categoryThunks";
 import { getProducts } from "../features/product/productThunks";
-import { useAppDispatch, useAppSelector } from "./hooks";
+import { useAppDispatch, useAppSelector } from "./store";
 
 export const useInitialData = (): void => {
     const dispatch = useAppDispatch();

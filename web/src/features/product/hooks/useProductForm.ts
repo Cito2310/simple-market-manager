@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import type { SizeUnit } from "@shared/types/Product";
-import { useAppDispatch } from "../../../app/hooks";
+import { useAppDispatch } from "../../../app/store";
 import type { CategorySelectValues } from "../../category/hooks/useCategorySelect";
 import type { ApiProduct } from "../productThunks";
 import { createProduct, updateProduct } from "../productThunks";

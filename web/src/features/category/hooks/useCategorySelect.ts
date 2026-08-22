@@ -1,6 +1,6 @@
 import { useMemo, useState } from "react";
 import { SECTIONS } from "@shared/types/Category";
-import { useAppSelector } from "../../../app/hooks";
+import { useAppSelector } from "../../../app/store";
 
 export interface CategorySelectValues {
     category: string;

@@ -1,6 +1,6 @@
 import { useState } from "react";
 import type { Section } from "@shared/types/Category";
-import { useAppDispatch, useAppSelector } from "../../../app/hooks";
+import { useAppDispatch, useAppSelector } from "../../../app/store";
 import {
     addBrand,
     addSubcategory,
