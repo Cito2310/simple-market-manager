@@ -7,7 +7,7 @@ export const PosPage = () => {
     const { lines, totals, status, barcode, removeLine, checkout } = usePosPage();
 
     return (
-        <div className="flex h-screen bg-slate-50">
+        <div className="flex h-full bg-slate-50">
             <section className="flex min-w-0 flex-1 flex-col px-6 py-6">
                 <header className="mb-4 flex items-center justify-between">
                     <div>

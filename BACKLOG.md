@@ -1,11 +1,6 @@
 # SIMPLE MARKET MANAGER
 
 ## TAREAS ACTUALES
-[ ] Integrar pagina de productos basica en frontend - Must
-[ ] Crear modal añadir productos basica en frontend - Must
-[ ] Crear modal editar productos basica en frontend - Must
-[ ] Integrar basic categories en frontend - Must
-[ ] Crear modal eliminar productos basica en frontend - Must
 
 
 ## BACKLOG
@@ -19,6 +14,11 @@
 
 ### Compartido
 [ ] Mover types de contrato (Input/Api) de web a shared - Should
+
+### TopBar
+[ ] Añadir el button de deloguear - Could
+[ ] Hacer activo el texto de Role y Usuario - Could
+[ ] Añadir al button de deloguear el icon de puerta - Could
 
 ### Categorias
 [•] Crear modelo de Categoria - Must
