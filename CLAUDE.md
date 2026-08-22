@@ -6,7 +6,7 @@
 - Indentación de **4 espacios**.
 - Antes de realizar algo, presentar un plan al usuario y esperar su confirmación
 - Usar arrow functions: `const fn = () => {}` en lugar de `function fn() {}`
-- Siempre programar en ingles aún si las instrucciones hayan sido en español, incluido comentarios
+- Siempre programar en ingles aún si las instrucciones hayan sido en español, a excepción de los comentarios que deben ser en español
 
 ## Estructura de archivos
 - Separar archivos por **features** (no por tipo de archivo global).

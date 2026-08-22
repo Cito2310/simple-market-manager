@@ -1,18 +1,16 @@
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import type { ChangeEvent, FormEvent } from "react";
-import { SECTIONS } from "@shared/types/Category";
 import type { SizeUnit } from "@shared/types/Product";
 import { useAppDispatch } from "../../../app/hooks";
 import type { ApiProduct } from "../productThunks";
 import { createProduct, updateProduct } from "../productThunks";
 
-// Placeholder until auth exists and the user comes from the token
+// Provisorio hasta que exista auth y el usuario salga del token
 const CURRENT_USER = "web";
 
 export interface ProductFormValues {
     name: string;
     brand: string;
-    section: string;
     category: string;
     subcategory: string;
     barcodes: string;
@@ -29,7 +27,6 @@ type FormErrors = Partial<Record<keyof ProductFormValues, string>>;
 const emptyValues: ProductFormValues = {
     name: "",
     brand: "",
-    section: SECTIONS[0],
     category: "",
     subcategory: "",
     barcodes: "",
@@ -44,7 +41,6 @@ const emptyValues: ProductFormValues = {
 const toFormValues = (product: ApiProduct): ProductFormValues => ({
     name: product.details.name,
     brand: product.details.brand,
-    section: product.details.section,
     category: product.details.category,
     subcategory: product.details.subcategory,
     barcodes: product.details.barcodes.join(", "),
@@ -85,6 +81,11 @@ export const useProductForm = (product: ApiProduct | undefined, onClose: () => v
         setValues((current) => ({ ...current, [field]: value }));
     };
 
+    // El select de categoría cascadea: cada nivel limpia los de abajo, así que llegan todos juntos
+    const setCategoryFields = useCallback((next: { category: string; subcategory: string; brand: string }): void => {
+        setValues((current) => ({ ...current, ...next }));
+    }, []);
+
     const handleSubmit = async (event: FormEvent<HTMLFormElement>): Promise<void> => {
         event.preventDefault();
 
@@ -97,7 +98,6 @@ export const useProductForm = (product: ApiProduct | undefined, onClose: () => v
         const details = {
             name: values.name.trim(),
             brand: values.brand.trim(),
-            section: values.section,
             category: values.category.trim(),
             subcategory: values.subcategory.trim(),
             barcodes: values.barcodes.split(",").map((code) => code.trim()).filter(Boolean),
@@ -110,7 +110,7 @@ export const useProductForm = (product: ApiProduct | undefined, onClose: () => v
         setSubmitError(null);
         try {
             if (product) {
-                // The API replaces the whole document, so everything the form does not edit is carried over
+                // La API reemplaza el documento entero, así que se arrastra todo lo que el formulario no edita
                 await dispatch(
                     updateProduct({
                         ...product,
@@ -139,5 +139,5 @@ export const useProductForm = (product: ApiProduct | undefined, onClose: () => v
         }
     };
 
-    return { values, errors, submitError, isSubmitting, handleChange, handleSubmit };
+    return { values, errors, submitError, isSubmitting, handleChange, setCategoryFields, handleSubmit };
 };

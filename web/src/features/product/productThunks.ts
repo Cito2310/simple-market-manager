@@ -1,30 +1,12 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import type { Product } from "@shared/types/Product";
-import { API_URL } from "../../app/api";
+import { request } from "../../app/api";
 
-// The API returns the shared Product shape plus Mongo's version key
+// La API devuelve la forma compartida de Product más la version key de Mongo
 export type ApiProduct = Product & { __v: number };
 
-// Everything the API needs to create a product; the server owns the rest
+// Todo lo que la API necesita para crear un producto; del resto se encarga el server
 export type ProductInput = Omit<Product, "_id" | "createdAt" | "updatedAt">;
-
-const request = async <T>(path: string, init?: RequestInit): Promise<T> => {
-    const response = await fetch(`${API_URL}${path}`, {
-        headers: { "Content-Type": "application/json" },
-        ...init
-    });
-    const text = await response.text();
-
-    if (!response.ok) {
-        // The server still answers validation errors with HTML, so fall back to the status
-        try {
-            throw new Error(JSON.parse(text).message ?? `Error ${response.status}`);
-        } catch (error) {
-            throw error instanceof SyntaxError ? new Error(`Error ${response.status}`) : error;
-        }
-    }
-    return text ? JSON.parse(text) : (undefined as T);
-};
 
 export const getProducts = createAsyncThunk<ApiProduct[]>("product/getProducts", () =>
     request<ApiProduct[]>("/api/products")

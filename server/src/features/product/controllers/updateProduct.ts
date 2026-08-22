@@ -8,10 +8,10 @@ export const updateProduct = async (req: Request, res: Response): Promise<void> 
         return;
     }
 
-    // Server-owned fields are never taken from the request body
+    // Los campos que maneja el server nunca se toman del body
     const { _id, __v, createdBy, createdAt, updatedAt, ...incoming } = req.body;
 
-    // Reject edits based on a version of the document that is no longer current
+    // Rechaza ediciones hechas sobre una versión que ya no es la actual
     if (__v !== undefined && __v !== product.__v) {
         res.status(409).json({ message: "Product was modified by someone else" });
         return;

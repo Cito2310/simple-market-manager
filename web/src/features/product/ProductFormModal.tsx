@@ -1,5 +1,5 @@
-import { SECTIONS } from "@shared/types/Category";
 import { SIZE_UNITS } from "@shared/types/Product";
+import { CategorySelect } from "../category/components/CategorySelect";
 import { Modal } from "../../shared/components/Modal";
 import { useProductForm } from "./hooks/useProductForm";
 import type { ApiProduct } from "./productThunks";
@@ -15,7 +15,8 @@ const labelClass = "mb-1 block text-sm font-medium text-slate-700";
 const errorClass = "mt-1 text-xs text-red-600";
 
 export const ProductFormModal = ({ product, onClose }: ProductFormModalProps) => {
-    const { values, errors, submitError, isSubmitting, handleChange, handleSubmit } = useProductForm(product, onClose);
+    const { values, errors, submitError, isSubmitting, handleChange, setCategoryFields, handleSubmit } =
+        useProductForm(product, onClose);
 
     return (
         <Modal title={product ? "Editar producto" : "Nuevo producto"} onClose={onClose}>
@@ -27,32 +28,13 @@ export const ProductFormModal = ({ product, onClose }: ProductFormModalProps) =>
                         {errors.name && <p className={errorClass}>{errors.name}</p>}
                     </div>
 
-                    <div>
-                        <label className={labelClass} htmlFor="brand">Marca</label>
-                        <input id="brand" className={fieldClass} value={values.brand} onChange={handleChange("brand")} />
-                        {errors.brand && <p className={errorClass}>{errors.brand}</p>}
-                    </div>
-
-                    <div>
-                        <label className={labelClass} htmlFor="section">Seccion</label>
-                        <select id="section" className={fieldClass} value={values.section} onChange={handleChange("section")}>
-                            {SECTIONS.map((section) => (
-                                <option key={section} value={section}>{section}</option>
-                            ))}
-                        </select>
-                    </div>
-
-                    <div>
-                        <label className={labelClass} htmlFor="category">Categoria</label>
-                        <input id="category" className={fieldClass} value={values.category} onChange={handleChange("category")} />
-                        {errors.category && <p className={errorClass}>{errors.category}</p>}
-                    </div>
-
-                    <div>
-                        <label className={labelClass} htmlFor="subcategory">Subcategoria</label>
-                        <input id="subcategory" className={fieldClass} value={values.subcategory} onChange={handleChange("subcategory")} />
-                        {errors.subcategory && <p className={errorClass}>{errors.subcategory}</p>}
-                    </div>
+                    <CategorySelect
+                        values={{ category: values.category, subcategory: values.subcategory, brand: values.brand }}
+                        onChange={setCategoryFields}
+                        categoryError={errors.category}
+                        subcategoryError={errors.subcategory}
+                        brandError={errors.brand}
+                    />
 
                     <div>
                         <label className={labelClass} htmlFor="size">Tamanio</label>

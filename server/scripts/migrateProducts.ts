@@ -45,7 +45,7 @@ const migrate = async (): Promise<void> => {
     const result = await products.bulkWrite(ops);
     console.log(`migrados : ${result.modifiedCount} modificados de ${ops.length}`);
 
-    // Acceptance check: every document must satisfy the current model
+    // Criterio de aceptación: todos los documentos deben cumplir el modelo actual
     const migrated = await ProductModel.find();
     const invalid = migrated.filter((doc) => doc.validateSync() !== undefined);
     console.log(`validos  : ${migrated.length - invalid.length} / ${migrated.length}`);

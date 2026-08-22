@@ -20,7 +20,6 @@ export const detailsSchema = new Schema<Details>(
     {
         name: { type: String, required: true, trim: true, lowercase: true },
         brand: { type: String, required: true, trim: true, lowercase: true },
-        section: { type: String, required: true, trim: true, lowercase: true },
         category: { type: String, required: true, trim: true, lowercase: true },
         subcategory: { type: String, required: true, trim: true, lowercase: true },
         barcodes: { type: [{ type: String, trim: true, lowercase: true }], default: [] },

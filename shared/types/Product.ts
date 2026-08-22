@@ -22,7 +22,6 @@ export interface Batch {
 export interface Details {
     name: string;
     brand: string;
-    section: string;
     category: string;
     subcategory: string;
     barcodes: string[];
