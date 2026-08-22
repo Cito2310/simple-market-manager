@@ -1,6 +1,6 @@
 import { SECTIONS } from "@shared/types/Category";
 import { SIZE_UNITS } from "@shared/types/Product";
-import { Modal } from "../../components/Modal";
+import { Modal } from "../../shared/components/Modal";
 import { useProductForm } from "./hooks/useProductForm";
 import type { ApiProduct } from "./productThunks";
 

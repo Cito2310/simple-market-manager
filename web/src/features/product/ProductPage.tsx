@@ -1,4 +1,4 @@
-import { ConfirmDialog } from "../../components/ConfirmDialog";
+import { ConfirmDialog } from "../../shared/components/ConfirmDialog";
 import { ProductFormModal } from "./ProductFormModal";
 import { useProductPage } from "./hooks/useProductPage";
 

@@ -1,6 +1,6 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import type { Product } from "@shared/types/Product";
-import { API_URL } from "../../config/api";
+import { API_URL } from "../../app/api";
 
 // The API returns the shared Product shape plus Mongo's version key
 export type ApiProduct = Product & { __v: number };
