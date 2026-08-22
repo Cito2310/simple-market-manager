@@ -1,8 +1,10 @@
-import { Schema, model, Document } from "mongoose";
+import { Schema, model } from "mongoose";
+import type { HydratedDocument } from "mongoose";
 import { SECTIONS } from "../../../../shared/types/Category.js";
 import type { CategoryMongo, Subcategory } from "../../../../shared/types/Category.js";
 
-export interface ICategory extends Document, CategoryMongo {}
+// Documento hidratado sobre la forma compartida; el schema se tipa con los datos crudos
+export type CategoryDocument = HydratedDocument<CategoryMongo>;
 
 const subcategorySchema = new Schema<Subcategory>(
     {
@@ -12,7 +14,7 @@ const subcategorySchema = new Schema<Subcategory>(
     { _id: false }
 );
 
-const categorySchema = new Schema<ICategory>(
+const categorySchema = new Schema<CategoryMongo>(
     {
         section: { type: String, enum: SECTIONS, required: true, trim: true, lowercase: true },
         name: { type: String, required: true, trim: true, lowercase: true },
@@ -24,4 +26,4 @@ const categorySchema = new Schema<ICategory>(
     { timestamps: true, optimisticConcurrency: true }
 );
 
-export const CategoryModel = model<ICategory>("Category", categorySchema);
+export const CategoryModel = model<CategoryMongo>("Category", categorySchema);

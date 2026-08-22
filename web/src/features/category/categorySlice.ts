@@ -1,11 +1,10 @@
 import { createSlice } from "@reduxjs/toolkit";
-import type { ApiCategory } from "./categoryThunks";
+import type { RequestStatus } from "@shared/types/Request";
+import type { CategoryApi } from "@shared/types/Category";
 import { createCategory, deleteCategory, getCategories, updateCategory } from "./categoryThunks";
 
-export type RequestStatus = "idle" | "loading" | "succeeded" | "failed";
-
 interface CategoryState {
-    items: ApiCategory[];
+    items: CategoryApi[];
     status: RequestStatus;
     error: string | null;
 }

@@ -10,7 +10,7 @@ import {
     renameBrand,
     renameSubcategory
 } from "../categoryOperations";
-import type { ApiCategory } from "../categoryThunks";
+import type { CategoryApi } from "@shared/types/Category";
 import { createCategory, deleteCategory, updateCategory } from "../categoryThunks";
 
 // Provisorio hasta que exista auth y el usuario salga del token
@@ -20,7 +20,7 @@ export type CategoryLevel = "category" | "subcategory" | "brand";
 
 interface CategoryOptionsContext {
     section: string;
-    category: ApiCategory | undefined;
+    category: CategoryApi | undefined;
     subcategoryName: string;
 }
 
@@ -55,11 +55,11 @@ export const useCategoryOptions = (
     };
 
     // Subcategorias y marcas viven dentro del documento de la categoria, asi que se guardan con un PUT completo
-    const saveCategory = async (category: ApiCategory): Promise<void> => {
+    const saveCategory = async (category: CategoryApi): Promise<void> => {
         await dispatch(updateCategory({ ...category, updatedBy: CURRENT_USER })).unwrap();
     };
 
-    const requireCategory = (): ApiCategory => {
+    const requireCategory = (): CategoryApi => {
         if (!context.category) {
             throw new Error("Elegi una categoria primero");
         }
@@ -67,7 +67,7 @@ export const useCategoryOptions = (
     };
 
     // Las categorias se editan por nombre porque es lo unico que muestra el desplegable
-    const findCategoryByName = (name: string): ApiCategory => {
+    const findCategoryByName = (name: string): CategoryApi => {
         const category = categories.find((item) => item.section === context.section && item.name === name);
         if (!category) {
             throw new Error("No se encontro la categoria");

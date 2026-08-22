@@ -1,11 +1,10 @@
 import { createSlice } from "@reduxjs/toolkit";
-import type { ApiProduct } from "./productThunks";
+import type { RequestStatus } from "@shared/types/Request";
+import type { ProductApi } from "@shared/types/Product";
 import { createProduct, deleteProduct, getProducts, updateProduct } from "./productThunks";
 
-export type RequestStatus = "idle" | "loading" | "succeeded" | "failed";
-
 interface ProductState {
-    items: ApiProduct[];
+    items: ProductApi[];
     status: RequestStatus;
     error: string | null;
 }

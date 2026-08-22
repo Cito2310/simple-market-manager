@@ -31,3 +31,9 @@ export interface Category extends Auditable {
 
 
 export type CategoryMongo = Omit<Category, "_id">;
+
+// La API devuelve la forma compartida de Category más la version key de Mongo
+export type CategoryApi = Category & { __v: number };
+
+// Todo lo que la API necesita para crear una categoría; del resto se encarga el server
+export type CategoryInput = Omit<Category, "_id" | "createdAt" | "updatedAt">;

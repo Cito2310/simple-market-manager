@@ -3,7 +3,7 @@ import { useForm } from "react-hook-form";
 import type { SizeUnit } from "@shared/types/Product";
 import { useAppDispatch } from "../../../app/store";
 import type { CategorySelectValues } from "../../category/hooks/useCategorySelect";
-import type { ApiProduct } from "../productThunks";
+import type { ProductApi } from "@shared/types/Product";
 import { createProduct, updateProduct } from "../productThunks";
 
 // Provisorio hasta que exista auth y el usuario salga del token
@@ -37,7 +37,7 @@ const emptyValues: ProductFormValues = {
     active: true
 };
 
-const toFormValues = (product: ApiProduct): ProductFormValues => ({
+const toFormValues = (product: ProductApi): ProductFormValues => ({
     name: product.details.name,
     brand: product.details.brand,
     category: product.details.category,
@@ -51,7 +51,7 @@ const toFormValues = (product: ApiProduct): ProductFormValues => ({
     active: product.active
 });
 
-export const useProductForm = (product: ApiProduct | undefined, onClose: () => void) => {
+export const useProductForm = (product: ProductApi | undefined, onClose: () => void) => {
     const dispatch = useAppDispatch();
     const [submitError, setSubmitError] = useState<string | null>(null);
 

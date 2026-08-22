@@ -58,3 +58,9 @@ export interface Product extends Auditable {
 
 
 export type ProductMongo = Omit<Product, "_id">;
+
+// La API devuelve la forma compartida de Product más la version key de Mongo
+export type ProductApi = Product & { __v: number };
+
+// Todo lo que la API necesita para crear un producto; del resto se encarga el server
+export type ProductInput = Omit<Product, "_id" | "createdAt" | "updatedAt">;

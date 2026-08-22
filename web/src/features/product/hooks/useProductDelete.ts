@@ -1,15 +1,15 @@
 import { useCallback, useState } from "react";
 import { useAppDispatch } from "../../../app/store";
-import type { ApiProduct } from "../productThunks";
+import type { ProductApi } from "@shared/types/Product";
 import { deleteProduct } from "../productThunks";
 
 export const useProductDelete = () => {
     const dispatch = useAppDispatch();
-    const [deleteTarget, setDeleteTarget] = useState<ApiProduct | undefined>(undefined);
+    const [deleteTarget, setDeleteTarget] = useState<ProductApi | undefined>(undefined);
     const [isDeleting, setIsDeleting] = useState(false);
     const [deleteError, setDeleteError] = useState<string | null>(null);
 
-    const requestDelete = useCallback((product: ApiProduct): void => {
+    const requestDelete = useCallback((product: ProductApi): void => {
         setDeleteTarget(product);
         setDeleteError(null);
     }, []);

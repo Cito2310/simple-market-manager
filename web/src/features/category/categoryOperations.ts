@@ -1,10 +1,10 @@
 import type { Subcategory } from "@shared/types/Category";
-import type { ApiCategory } from "./categoryThunks";
+import type { CategoryApi } from "@shared/types/Category";
 
 // El server guarda todo en minusculas, asi que comparamos y creamos con la misma regla
 export const normalize = (value: string): string => value.trim().toLowerCase();
 
-const findSubcategory = (category: ApiCategory, name: string): Subcategory => {
+const findSubcategory = (category: CategoryApi, name: string): Subcategory => {
     const subcategory = category.subcategories.find((item) => item.name === name);
     if (!subcategory) {
         throw new Error("No se encontro la subcategoria");
@@ -14,24 +14,24 @@ const findSubcategory = (category: ApiCategory, name: string): Subcategory => {
 
 // Reemplaza una subcategoria dejando intactas las demas
 const mapSubcategory = (
-    category: ApiCategory,
+    category: CategoryApi,
     name: string,
     replace: (subcategory: Subcategory) => Subcategory
-): ApiCategory => ({
+): CategoryApi => ({
     ...category,
     subcategories: category.subcategories.map((item) => (item.name === name ? replace(item) : item))
 });
 
 
 // SUBCATEGORIAS
-export const addSubcategory = (category: ApiCategory, name: string): ApiCategory => {
+export const addSubcategory = (category: CategoryApi, name: string): CategoryApi => {
     if (category.subcategories.some((item) => item.name === name)) {
         throw new Error("Esa subcategoria ya existe");
     }
     return { ...category, subcategories: [...category.subcategories, { name, brands: [] }] };
 };
 
-export const renameSubcategory = (category: ApiCategory, previous: string, next: string): ApiCategory => {
+export const renameSubcategory = (category: CategoryApi, previous: string, next: string): CategoryApi => {
     findSubcategory(category, previous);
     if (category.subcategories.some((item) => item.name === next)) {
         throw new Error("Esa subcategoria ya existe");
@@ -39,14 +39,14 @@ export const renameSubcategory = (category: ApiCategory, previous: string, next:
     return mapSubcategory(category, previous, (subcategory) => ({ ...subcategory, name: next }));
 };
 
-export const removeSubcategory = (category: ApiCategory, name: string): ApiCategory => ({
+export const removeSubcategory = (category: CategoryApi, name: string): CategoryApi => ({
     ...category,
     subcategories: category.subcategories.filter((item) => item.name !== name)
 });
 
 
 // MARCAS
-export const addBrand = (category: ApiCategory, subcategoryName: string, name: string): ApiCategory => {
+export const addBrand = (category: CategoryApi, subcategoryName: string, name: string): CategoryApi => {
     const subcategory = findSubcategory(category, subcategoryName);
     if (subcategory.brands.includes(name)) {
         throw new Error("Esa marca ya existe en la subcategoria");
@@ -55,11 +55,11 @@ export const addBrand = (category: ApiCategory, subcategoryName: string, name: s
 };
 
 export const renameBrand = (
-    category: ApiCategory,
+    category: CategoryApi,
     subcategoryName: string,
     previous: string,
     next: string
-): ApiCategory => {
+): CategoryApi => {
     const subcategory = findSubcategory(category, subcategoryName);
     if (!subcategory.brands.includes(previous)) {
         throw new Error("No se encontro la marca");
@@ -73,7 +73,7 @@ export const renameBrand = (
     }));
 };
 
-export const removeBrand = (category: ApiCategory, subcategoryName: string, name: string): ApiCategory => {
+export const removeBrand = (category: CategoryApi, subcategoryName: string, name: string): CategoryApi => {
     findSubcategory(category, subcategoryName);
     return mapSubcategory(category, subcategoryName, (item) => ({
         ...item,

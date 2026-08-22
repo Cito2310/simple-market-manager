@@ -1,10 +1,12 @@
-import { Schema, model, Document } from "mongoose";
+import { Schema, model } from "mongoose";
+import type { HydratedDocument } from "mongoose";
 import type { ProductMongo } from "../../../../shared/types/Product.js";
 import { detailsSchema, sellSchema, inventorySchema } from "./product.schemas.js";
 
-export interface IProduct extends Document, ProductMongo {}
+// Documento hidratado sobre la forma compartida; el schema se tipa con los datos crudos
+export type ProductDocument = HydratedDocument<ProductMongo>;
 
-const productSchema = new Schema<IProduct>(
+const productSchema = new Schema<ProductMongo>(
     {
         details: { type: detailsSchema, required: true },
         sell: { type: sellSchema, required: true },
@@ -16,4 +18,4 @@ const productSchema = new Schema<IProduct>(
     { timestamps: true, optimisticConcurrency: true }
 );
 
-export const ProductModel = model<IProduct>("Product", productSchema);
+export const ProductModel = model<ProductMongo>("Product", productSchema);

@@ -2,10 +2,10 @@ import { SIZE_UNITS } from "@shared/types/Product";
 import { CategoryCascade } from "../category/components/CategoryCascade";
 import { Modal } from "../../shared/components/Modal";
 import { useProductForm } from "./hooks/useProductForm";
-import type { ApiProduct } from "./productThunks";
+import type { ProductApi } from "@shared/types/Product";
 
 interface ProductFormModalProps {
-    product?: ApiProduct;
+    product?: ProductApi;
     onClose: () => void;
 }
 
