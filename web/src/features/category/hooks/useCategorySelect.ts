@@ -85,6 +85,7 @@ export const useCategorySelect = (
     return {
         isLoading: status === "loading",
         section,
+        selectedCategory,
         sectionOptions,
         categoryOptions,
         subcategoryOptions,

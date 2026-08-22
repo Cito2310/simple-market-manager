@@ -26,6 +26,9 @@
 [ ] Añadir verificaciones al CRUD - Should
 [ ] Añadir Proteccion a las rutas a excepcion de get - Could
 [ ] Integrar basic categories en frontend - Must
+[•] Cascade de categorias editable en frontend (CategoryCascade) - Must
+[ ] Cascada de rename/delete hacia Product.details (guarda nombres como strings) - Could
+[ ] Mostrar cantidad de productos afectados antes de renombrar/borrar - Won't
 
 ### Productos
 [•] Crear modelo de Productos - Must

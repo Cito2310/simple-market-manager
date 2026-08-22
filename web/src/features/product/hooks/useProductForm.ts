@@ -1,7 +1,8 @@
-import { useCallback, useState } from "react";
-import type { ChangeEvent, FormEvent } from "react";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
 import type { SizeUnit } from "@shared/types/Product";
 import { useAppDispatch } from "../../../app/hooks";
+import type { CategorySelectValues } from "../../category/hooks/useCategorySelect";
 import type { ApiProduct } from "../productThunks";
 import { createProduct, updateProduct } from "../productThunks";
 
@@ -21,8 +22,6 @@ export interface ProductFormValues {
     weighable: boolean;
     active: boolean;
 }
-
-type FormErrors = Partial<Record<keyof ProductFormValues, string>>;
 
 const emptyValues: ProductFormValues = {
     name: "",
@@ -52,61 +51,43 @@ const toFormValues = (product: ApiProduct): ProductFormValues => ({
     active: product.active
 });
 
-const isPositiveNumber = (value: string): boolean => value.trim() !== "" && Number(value) >= 0;
-
-const validate = (values: ProductFormValues): FormErrors => {
-    const errors: FormErrors = {};
-    if (!values.name.trim()) errors.name = "Requerido";
-    if (!values.brand.trim()) errors.brand = "Requerido";
-    if (!values.category.trim()) errors.category = "Requerido";
-    if (!values.subcategory.trim()) errors.subcategory = "Requerido";
-    if (!isPositiveNumber(values.size)) errors.size = "Numero mayor o igual a 0";
-    if (!isPositiveNumber(values.cost)) errors.cost = "Numero mayor o igual a 0";
-    if (!isPositiveNumber(values.salePrice)) errors.salePrice = "Numero mayor o igual a 0";
-    return errors;
-};
-
 export const useProductForm = (product: ApiProduct | undefined, onClose: () => void) => {
     const dispatch = useAppDispatch();
-    const [values, setValues] = useState<ProductFormValues>(product ? toFormValues(product) : emptyValues);
-    const [errors, setErrors] = useState<FormErrors>({});
     const [submitError, setSubmitError] = useState<string | null>(null);
-    const [isSubmitting, setIsSubmitting] = useState(false);
 
-    const handleChange = (field: keyof ProductFormValues) => (
-        event: ChangeEvent<HTMLInputElement | HTMLSelectElement>
-    ): void => {
-        const target = event.target;
-        const value = target instanceof HTMLInputElement && target.type === "checkbox" ? target.checked : target.value;
-        setValues((current) => ({ ...current, [field]: value }));
+    const {
+        register,
+        handleSubmit: rhfHandleSubmit,
+        watch,
+        setValue,
+        formState: { errors, isSubmitting }
+    } = useForm<ProductFormValues>({ defaultValues: product ? toFormValues(product) : emptyValues });
+
+    const categoryValues: CategorySelectValues = {
+        category: watch("category"),
+        subcategory: watch("subcategory"),
+        brand: watch("brand")
     };
 
-    // El select de categoría cascadea: cada nivel limpia los de abajo, así que llegan todos juntos
-    const setCategoryFields = useCallback((next: { category: string; subcategory: string; brand: string }): void => {
-        setValues((current) => ({ ...current, ...next }));
-    }, []);
+    // Un solo cambio de la cascada escribe los tres campos a la vez
+    const setCategoryFields = (next: CategorySelectValues): void => {
+        setValue("category", next.category, { shouldValidate: true });
+        setValue("subcategory", next.subcategory, { shouldValidate: true });
+        setValue("brand", next.brand, { shouldValidate: true });
+    };
 
-    const handleSubmit = async (event: FormEvent<HTMLFormElement>): Promise<void> => {
-        event.preventDefault();
-
-        const validationErrors = validate(values);
-        setErrors(validationErrors);
-        if (Object.keys(validationErrors).length > 0) {
-            return;
-        }
-
+    const submit = async (values: ProductFormValues): Promise<void> => {
         const details = {
             name: values.name.trim(),
-            brand: values.brand.trim(),
-            category: values.category.trim(),
-            subcategory: values.subcategory.trim(),
+            brand: values.brand,
+            category: values.category,
+            subcategory: values.subcategory,
             barcodes: values.barcodes.split(",").map((code) => code.trim()).filter(Boolean),
             size: Number(values.size),
             sizeUnit: values.sizeUnit
         };
         const prices = { cost: Number(values.cost), salePrice: Number(values.salePrice) };
 
-        setIsSubmitting(true);
         setSubmitError(null);
         try {
             if (product) {
@@ -132,12 +113,18 @@ export const useProductForm = (product: ApiProduct | undefined, onClose: () => v
                 ).unwrap();
             }
             onClose();
-        } catch (error) {
-            setSubmitError(error instanceof Error ? error.message : String(error));
-        } finally {
-            setIsSubmitting(false);
+        } catch (caught) {
+            setSubmitError(caught instanceof Error ? caught.message : String(caught));
         }
     };
 
-    return { values, errors, submitError, isSubmitting, handleChange, setCategoryFields, handleSubmit };
+    return {
+        register,
+        errors,
+        isSubmitting,
+        submitError,
+        categoryValues,
+        setCategoryFields,
+        handleSubmit: rhfHandleSubmit(submit)
+    };
 };
