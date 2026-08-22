@@ -1,6 +1,6 @@
 import { Schema } from "mongoose";
 import { SIZE_UNITS } from "../../../../shared/types/Product.js";
-import type { Promotion, Batch, Details, Sell, Stock, Expiry } from "../../../../shared/types/Product.js";
+import type { Promotion, Batch, Details, Sell, Inventory } from "../../../../shared/types/Product.js";
 
 export const promotionSchema = new Schema<Promotion>(
     {
@@ -40,7 +40,7 @@ export const sellSchema = new Schema<Sell>(
     { _id: false }
 );
 
-export const stockAlertsSchema = new Schema<Stock["alerts"]>(
+export const inventoryAlertsSchema = new Schema<Inventory["alerts"]>(
     {
         enabled: { type: Boolean, default: false },
         warning: { type: Number, default: 0, min: 0 },
@@ -50,16 +50,10 @@ export const stockAlertsSchema = new Schema<Stock["alerts"]>(
     { _id: false }
 );
 
-export const stockSchema = new Schema<Stock>(
+export const inventorySchema = new Schema<Inventory>(
     {
-        alerts: { type: stockAlertsSchema, required: true }
-    },
-    { _id: false }
-);
-
-export const expirySchema = new Schema<Expiry>(
-    {
-        batches: { type: [batchSchema], default: [] }
+        batches: { type: [batchSchema], default: [] },
+        alerts: { type: inventoryAlertsSchema, required: true }
     },
     { _id: false }
 );

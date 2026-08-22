@@ -37,7 +37,8 @@ export interface Sell {
     weighable: boolean;
 }
 
-export interface Stock {
+export interface Inventory {
+    batches: Batch[];
     alerts: {
         enabled: boolean;
         warning: number;
@@ -46,18 +47,13 @@ export interface Stock {
     };
 }
 
-export interface Expiry {
-    batches: Batch[];
-}
-
 
 // PRIMARY OBJECT
 export interface Product extends Auditable {
     _id: string;
     details: Details;
     sell: Sell;
-    stock?: Stock;
-    expiry?: Expiry;
+    inventory?: Inventory;
     active: boolean;
 }
 
