@@ -9,7 +9,7 @@ const getEnvVar = (key: string): string => {
 };
 
 export const env = {
-    port: process.env.PORT ?? "3000",
+    port: getEnvVar("PORT"),
     mongodbCnn: getEnvVar("MONGODB_CNN"),
     secretOrPrivateKey: getEnvVar("SECRET_OR_PRIVATE_KEY")
 };

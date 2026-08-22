@@ -4,12 +4,13 @@
 
 ## BACKLOG
 ### Server
-[ ] Añadir conexion a MongoDB - Must
-[ ] Añadir conexion a .env - Must 
+[•] Añadir conexion a MongoDB - Must
+[•] Añadir conexion a .env - Must 
+[ ] Añadir middlewares basico | JWT Role etc | - Should
 
 ### Categorias
 [•] Crear modelo de Categoria - Must
-[ ] Crear CRUD de Categoria - Must
+[•] Crear CRUD de Categoria - Must
 [ ] Añadir verificaciones al CRUD - Should
 [ ] Añadir Proteccion a las rutas a excepcion de get - Could
 

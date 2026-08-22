@@ -1,4 +1,4 @@
-import type { Auditable } from "./Auditable";
+import type { Auditable } from "./Auditable.js";
 
 // TERTIARY OBJECT
 export interface Promotion {
