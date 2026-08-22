@@ -2,7 +2,7 @@
 
 ## TAREAS ACTUALES
 [•] Crear errorHandler: ValidationError -> 400 JSON en vez de 500 HTML - Should
-[ ] Añadir verificaciones al CRUD Producto - Should 
+[•] Añadir verificaciones al CRUD Producto - Should 
 [•] Añadir verificaciones al CRUD Category - Should 
 
 
@@ -37,7 +37,7 @@
 ### Productos
 [•] Crear modelo de Productos - Must
 [•] Crear CRUD de Productos - Must
-[ ] Añadir verificaciones al CRUD - Should
+[•] Añadir verificaciones al CRUD - Should
 [•] Establecer los tipos de sizeType - Could
 [ ] Añadir Proteccion a las rutas a excepcion de get - Could
 [•] Integrar pagina de productos basica en frontend - Must

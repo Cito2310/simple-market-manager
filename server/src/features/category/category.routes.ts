@@ -1,6 +1,7 @@
 import { Router } from "express";
+import { createdByRules, updatedByRules } from "../../helpers/validationRules.js";
 import { checkFields } from "../../middlewares/checkFields.js";
-import { categoryRules, createdByRules, idRules, updatedByRules } from "./category.validators.js";
+import { categoryRules, idRules } from "./category.validators.js";
 import { getCategories } from "./controllers/getCategories.js";
 import { createCategory } from "./controllers/createCategory.js";
 import { updateCategory } from "./controllers/updateCategory.js";

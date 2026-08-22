@@ -28,3 +28,10 @@ export const stringRules = (
         .isLength({ min, max })
         .withMessage(lengthMessage(label, min, max));
 };
+
+const USER_OPTIONS = { max: 50 };
+
+// Campos de Auditable: hoy llegan en el body, cuando exista auth van a salir del token
+export const createdByRules = stringRules("createdBy", "CreatedBy", USER_OPTIONS);
+
+export const updatedByRules = stringRules("updatedBy", "UpdatedBy", USER_OPTIONS);
