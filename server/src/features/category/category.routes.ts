@@ -1,12 +1,36 @@
 import { Router } from "express";
+import { checkFields } from "../../middlewares/checkFields.js";
+import { categoryRules, createdByRules, idRules, updatedByRules } from "./category.validators.js";
 import { getCategories } from "./controllers/getCategories.js";
 import { createCategory } from "./controllers/createCategory.js";
 import { updateCategory } from "./controllers/updateCategory.js";
 import { deleteCategory } from "./controllers/deleteCategory.js";
 
+
 export const categoryRoutes = Router();
 
+
 categoryRoutes.get("/", getCategories);
-categoryRoutes.post("/", createCategory);
-categoryRoutes.put("/:id", updateCategory);
-categoryRoutes.delete("/:id", deleteCategory);
+
+
+categoryRoutes.post("/", 
+    [
+        ...categoryRules, 
+        createdByRules, 
+        updatedByRules, 
+        checkFields
+], createCategory);
+
+
+categoryRoutes.put("/:id", [
+    idRules, 
+    ...categoryRules, 
+    updatedByRules, 
+    checkFields
+], updateCategory);
+
+
+categoryRoutes.delete("/:id", [
+    idRules, 
+    checkFields
+], deleteCategory);

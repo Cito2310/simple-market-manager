@@ -1,7 +1,12 @@
 import type { Request, Response } from "express";
+import type { CategoryApi } from "../../../../../shared/types/Category.js";
 import { CategoryModel } from "../category.model.js";
 
-export const updateCategory = async (req: Request, res: Response): Promise<void> => {
+// El front manda la categoría completa, con _id y __v incluidos
+export const updateCategory = async (
+    req: Request<{ id: string }, unknown, CategoryApi>,
+    res: Response
+): Promise<void> => {
     const category = await CategoryModel.findById(req.params.id);
     if (!category) {
         res.status(404).json({ message: "Category not found" });

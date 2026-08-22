@@ -1,7 +1,12 @@
 import type { Request, Response } from "express";
+import type { ProductApi } from "../../../../../shared/types/Product.js";
 import { ProductModel } from "../product.model.js";
 
-export const updateProduct = async (req: Request, res: Response): Promise<void> => {
+// El front manda el producto completo, con _id y __v incluidos
+export const updateProduct = async (
+    req: Request<{ id: string }, unknown, ProductApi>,
+    res: Response
+): Promise<void> => {
     const product = await ProductModel.findById(req.params.id);
     if (!product) {
         res.status(404).json({ message: "Product not found" });

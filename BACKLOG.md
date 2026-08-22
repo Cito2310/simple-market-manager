@@ -1,6 +1,9 @@
 # SIMPLE MARKET MANAGER
 
 ## TAREAS ACTUALES
+[•] Crear errorHandler: ValidationError -> 400 JSON en vez de 500 HTML - Should
+[ ] Añadir verificaciones al CRUD Producto - Should 
+[•] Añadir verificaciones al CRUD Category - Should 
 
 
 ## BACKLOG
@@ -9,8 +12,9 @@
 [•] Añadir conexion a .env - Must 
 [ ] Añadir middlewares basico | JWT Role etc | - Should
 [•] Mover types de contrato (Input/Api) de web a shared - Should
-[ ] Crear errorHandler: ValidationError -> 400 JSON en vez de 500 HTML - Should
-[ ] Tipar req.body en los controllers de create y update - Should
+[•] Crear errorHandler: ValidationError -> 400 JSON en vez de 500 HTML - Should
+[•] Tipar req.body en los controllers de create y update - Should
+[ ] Tomar createdBy y updateBy desde req.user
 
 ### Compartido
 [•] Mover types de contrato (Input/Api) de web a shared - Should
@@ -23,9 +27,9 @@
 ### Categorias
 [•] Crear modelo de Categoria - Must
 [•] Crear CRUD de Categoria - Must
-[ ] Añadir verificaciones al CRUD - Should
+[•] Añadir verificaciones al CRUD - Should
 [ ] Añadir Proteccion a las rutas a excepcion de get - Could
-[ ] Integrar basic categories en frontend - Must
+[•] Integrar basic categories en frontend - Must
 [•] Cascade de categorias editable en frontend (CategoryCascade) - Must
 [ ] Cascada de rename/delete hacia Product.details (guarda nombres como strings) - Could
 [ ] Mostrar cantidad de productos afectados antes de renombrar/borrar - Won't
