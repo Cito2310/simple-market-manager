@@ -48,11 +48,13 @@
 
 ### Ventas
 [•] Crear modelo de Ticket - Must
-[ ] Crear pagina basica de ventas
-[ ] Crear modal basico de confirmar venta
-[ ] Validar que sum(payments.amount) === total al cerrar la venta - Must
+[•] Crear pagina basica de ventas
+[ ] Ingresar peso a mano en la caja para productos weighable - Should
+[ ] Persistir tickets en el server (hoy quedan en localStorage) - Should
+[ ] Crear modal basico de confirmar venta - Should
+[ ] Validar que sum(payments.amount) === total al cerrar la venta - Should
 [ ] Definir lista fija de cuentas para Payment.detail (evitar texto libre) - Should
-[ ] Escritura local append-only o atomica (no reescribir el JSON entero) - Must
+[ ] Escritura local append-only o atomica (no reescribir el JSON entero) - Should
 [ ] Descuento de stock por lote con criterio FEFO - Must
 
 ### Usuarios

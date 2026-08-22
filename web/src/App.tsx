@@ -1,4 +1,5 @@
 import { useInitialData } from "./app/useInitialData";
+import { PosPage } from "./features/pos/PosPage";
 import { ProductPage } from "./features/product/ProductPage";
 
 const App = () => {
@@ -6,7 +7,7 @@ const App = () => {
 
     return (
         <div className="min-h-screen bg-slate-50">
-            <ProductPage />
+            <PosPage />
         </div>
     );
 };
