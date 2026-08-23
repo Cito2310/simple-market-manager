@@ -1,6 +1,7 @@
 import { ConfirmDialog } from "../../shared/components/ConfirmDialog";
 import { ModalProductForm } from "./components/ModalProductForm";
 import { ProductFilters } from "./components/ProductFilters";
+import { ProductPagination } from "./components/ProductPagination";
 import { ProductTable } from "./components/ProductTable";
 import { useProductPage } from "./hooks/useProductPage";
 
@@ -25,7 +26,17 @@ export const ProductPage = () => {
         categoryOptions,
         setSearch,
         setSection,
-        setCategory
+        setCategory,
+        pageItems,
+        page,
+        totalPages,
+        pageSize,
+        firstShown,
+        lastShown,
+        total,
+        setPageSize,
+        goToPrevious,
+        goToNext
     } = useProductPage();
 
     return (
@@ -81,7 +92,21 @@ export const ProductPage = () => {
             )}
 
             {status === "succeeded" && filtered.length > 0 && (
-                <ProductTable openEdit={openEdit} products={filtered} requestDelete={requestDelete} />
+                <>
+                    <ProductTable openEdit={openEdit} products={pageItems} requestDelete={requestDelete} />
+
+                    <ProductPagination
+                        page={page}
+                        totalPages={totalPages}
+                        pageSize={pageSize}
+                        firstShown={firstShown}
+                        lastShown={lastShown}
+                        total={total}
+                        setPageSize={setPageSize}
+                        goToPrevious={goToPrevious}
+                        goToNext={goToNext}
+                    />
+                </>
             )}
 
             {isModalOpen && <ModalProductForm product={editing} onClose={closeModal} />}

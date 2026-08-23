@@ -2,11 +2,13 @@ import { useCallback, useState } from "react";
 import type { ProductApi } from "@shared/types/Product";
 import { useProductDelete } from "./useProductDelete";
 import { useProductFilters } from "./useProductFilters";
+import { useProductPagination } from "./useProductPagination";
 import { useProducts } from "./useProducts";
 
 export const useProductPage = () => {
     const { products, status, error } = useProducts();
     const filters = useProductFilters(products);
+    const pagination = useProductPagination(filters.filtered, filters.filters);
     const deletion = useProductDelete();
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [editing, setEditing] = useState<ProductApi | undefined>(undefined);
@@ -33,6 +35,7 @@ export const useProductPage = () => {
         openEdit,
         closeModal,
         ...deletion,
-        ...filters
+        ...filters,
+        ...pagination
     };
 };
