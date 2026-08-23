@@ -1,9 +1,14 @@
 # SIMPLE MARKET MANAGER
 
 ## TAREAS ACTUALES
-[•] Crear errorHandler: ValidationError -> 400 JSON en vez de 500 HTML - Should
-[•] Añadir verificaciones al CRUD Producto - Should 
-[•] Añadir verificaciones al CRUD Category - Should 
+[ ] Finalizar diseño pagina de productos - Could - L
+[ ] Separar ProductPage base en components - ProductTable, Modal, StatusPage
+[ ] Añadir icon y button de edit y delete en Product
+[ ] Añadir statusStock
+
+[ ] Finalizar diseño modalProductForm - Could - L
+[ ] Verificar hook modalProductForm
+[ ] Añadir seccion de expiricy y stock en modalProductForm
 
 
 ## BACKLOG

@@ -1,5 +1,6 @@
 import { ConfirmDialog } from "../../shared/components/ConfirmDialog";
-import { ProductFormModal } from "./ProductFormModal";
+import { ModalProductForm } from "./components/ModalProductForm";
+import { ProductTable } from "./components/ProductTable";
 import { useProductPage } from "./hooks/useProductPage";
 
 export const ProductPage = () => {
@@ -56,51 +57,9 @@ export const ProductPage = () => {
                 </p>
             )}
 
-            {status === "succeeded" && products.length > 0 && (
-                <div className="overflow-x-auto rounded-lg border border-slate-200 bg-white">
-                    <table className="w-full text-left text-sm">
-                        <thead className="border-b border-slate-200 bg-slate-50 text-slate-600">
-                            <tr>
-                                <th className="px-4 py-3 font-medium">Nombre</th>
-                                <th className="px-4 py-3 font-medium">Marca</th>
-                                <th className="px-4 py-3 font-medium">Categoria</th>
-                                <th className="px-4 py-3 text-right font-medium">Precio</th>
-                                <th className="px-4 py-3" />
-                            </tr>
-                        </thead>
-                        <tbody className="divide-y divide-slate-100">
-                            {products.map((product) => (
-                                <tr key={product._id} className="text-slate-700">
-                                    <td className="px-4 py-3 capitalize">{product.details.name}</td>
-                                    <td className="px-4 py-3 capitalize">{product.details.brand}</td>
-                                    <td className="px-4 py-3 capitalize">{product.details.category}</td>
-                                    <td className="px-4 py-3 text-right tabular-nums">${product.sell.salePrice}</td>
-                                    <td className="px-4 py-3 text-right">
-                                        <div className="flex justify-end gap-1">
-                                            <button
-                                                type="button"
-                                                onClick={() => openEdit(product)}
-                                                className="rounded px-2 py-1 text-sm font-medium text-slate-600 transition hover:bg-slate-100 hover:text-slate-900"
-                                            >
-                                                Editar
-                                            </button>
-                                            <button
-                                                type="button"
-                                                onClick={() => requestDelete(product)}
-                                                className="rounded px-2 py-1 text-sm font-medium text-red-600 transition hover:bg-red-50 hover:text-red-700"
-                                            >
-                                                Eliminar
-                                            </button>
-                                        </div>
-                                    </td>
-                                </tr>
-                            ))}
-                        </tbody>
-                    </table>
-                </div>
-            )}
+            {status === "succeeded" && products.length > 0 && ( <ProductTable openEdit={openEdit} products={products} requestDelete={requestDelete} /> )}
 
-            {isModalOpen && <ProductFormModal product={editing} onClose={closeModal} />}
+            {isModalOpen && <ModalProductForm product={editing} onClose={closeModal} />}
 
             {deleteTarget && (
                 <ConfirmDialog
