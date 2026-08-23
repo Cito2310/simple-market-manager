@@ -1,5 +1,6 @@
 import type { TicketLine } from "@shared/types/Ticket";
-import { formatPrice, formatQuantity } from "../posFormat";
+import { formatPrice } from "../../../shared/helpers/formatPrice";
+import { formatQuantity } from "../posFormat";
 
 interface TicketTableProps {
     lines: TicketLine[];

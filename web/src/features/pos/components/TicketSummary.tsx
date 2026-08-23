@@ -1,5 +1,5 @@
 import type { TicketTotals } from "../posOperations";
-import { formatPrice } from "../posFormat";
+import { formatPrice } from "../../../shared/helpers/formatPrice";
 
 interface TicketSummaryProps {
     totals: TicketTotals;
