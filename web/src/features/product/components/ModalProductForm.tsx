@@ -1,8 +1,14 @@
-import { SIZE_UNITS } from "@shared/types/Product";
 import { CategoryCascade } from "../../category/components/CategoryCascade";
 import { Modal } from "../../../shared/components/Modal";
 import { useProductForm } from "../hooks/useProductForm";
-import { fieldClass, InputTextProductForm, labelClass } from "./InputsProductForm";
+import { InputBatchesProductForm } from "./InputBatchesProductForm";
+import {
+    InputBarcodesProductForm,
+    InputCheckboxProductForm,
+    InputSizeProductForm,
+    InputTextProductForm
+} from "./InputsProductForm";
+import { SectionProductForm } from "./SectionProductForm";
 import type { ProductApi } from "@shared/types/Product";
 
 interface props {
@@ -13,16 +19,19 @@ interface props {
 // Lo comparten el <form> y su boton de submit, que vive en el footer del Modal
 const FORM_ID = "product-form";
 
-// El precio y el costo aceptan 0, el tamanio no: el server pide mayor a 0
+// El precio y el costo aceptan 0
 const priceRules = { required: "Requerido", min: { value: 0, message: "Tiene que ser mayor o igual a 0" } };
-const sizeRules = {
-    required: "Requerido",
-    validate: (value: string | boolean) => Number(value) > 0 || "Tiene que ser mayor a 0"
-};
-
 export const ModalProductForm = ({ product, onClose }: props) => {
-    const { register, errors, isSubmitting, submitError, categoryValues, setCategoryFields, handleSubmit } =
-        useProductForm(product, onClose);
+    const {
+        register,
+        control,
+        errors,
+        isSubmitting,
+        submitError,
+        categoryValues,
+        setCategoryFields,
+        handleSubmit
+    } = useProductForm(product, onClose);
 
     return (
         <Modal
@@ -39,15 +48,10 @@ export const ModalProductForm = ({ product, onClose }: props) => {
             ]}
         >
             <form id={FORM_ID} onSubmit={handleSubmit}>
-                <div className="grid gap-4 px-6 py-5 sm:grid-cols-2">
-                    <InputTextProductForm
-                        name="name"
-                        label="Nombre"
-                        register={register}
-                        rules={{ required: "Requerido" }}
-                        error={errors.name?.message}
-                        wide
-                    />
+                <SectionProductForm title="Detalles">
+                    <InputBarcodesProductForm register={register} control={control} errors={errors} />
+
+
 
                     {/* La cascada se escribe con setValue, pero se registra igual para que RHF la valide */}
                     <input type="hidden" {...register("category", { required: "Requerido" })} />
@@ -63,24 +67,19 @@ export const ModalProductForm = ({ product, onClose }: props) => {
                     />
 
                     <InputTextProductForm
-                        name="size"
-                        label="Tamaño"
-                        type="number"
-                        step="any"
+                        name="name"
+                        label="Nombre"
+                        placeholder="Nombre del Producto"
                         register={register}
-                        rules={sizeRules}
-                        error={errors.size?.message}
+                        rules={{ required: "Requerido" }}
+                        error={errors.name?.message}
                     />
 
-                    <div>
-                        <label className={labelClass} htmlFor="sizeUnit">Unidad</label>
-                        <select id="sizeUnit" className={fieldClass} {...register("sizeUnit")}>
-                            {SIZE_UNITS.map((unit) => (
-                                <option key={unit} value={unit}>{unit}</option>
-                            ))}
-                        </select>
-                    </div>
+                    <InputSizeProductForm register={register} error={errors.size?.message} />
 
+                </SectionProductForm>
+
+                <SectionProductForm title="Venta">
                     <InputTextProductForm
                         name="cost"
                         label="Costo"
@@ -101,25 +100,48 @@ export const ModalProductForm = ({ product, onClose }: props) => {
                         error={errors.salePrice?.message}
                     />
 
-                    <InputTextProductForm
-                        name="barcodes"
-                        label="Codigos de barra"
-                        placeholder="Separados por coma"
+                    <InputCheckboxProductForm name="weighable" label="Se vende por peso" register={register} />
+                </SectionProductForm>
+
+                <SectionProductForm title="Inventario">
+                    <InputBatchesProductForm register={register} control={control} errors={errors} />
+
+                    <InputCheckboxProductForm
+                        name="alertsEnabled"
+                        label="Avisar por stock bajo"
                         register={register}
-                        error={errors.barcodes?.message}
-                        wide
                     />
 
-                    <label className="flex items-center gap-2 text-sm text-slate-700">
-                        <input type="checkbox" {...register("weighable")} />
-                        Se vende por peso
-                    </label>
-
-                    <label className="flex items-center gap-2 text-sm text-slate-700">
-                        <input type="checkbox" {...register("active")} />
-                        Activo
-                    </label>
-                </div>
+                    <div className="sm:col-span-2 grid gap-4 sm:grid-cols-3">
+                        <InputTextProductForm
+                            name="alertsWarning"
+                            label="Aviso"
+                            type="number"
+                            step="any"
+                            register={register}
+                            rules={priceRules}
+                            error={errors.alertsWarning?.message}
+                        />
+                        <InputTextProductForm
+                            name="alertsLow"
+                            label="Bajo"
+                            type="number"
+                            step="any"
+                            register={register}
+                            rules={priceRules}
+                            error={errors.alertsLow?.message}
+                        />
+                        <InputTextProductForm
+                            name="alertsCritical"
+                            label="Critico"
+                            type="number"
+                            step="any"
+                            register={register}
+                            rules={priceRules}
+                            error={errors.alertsCritical?.message}
+                        />
+                    </div>
+                </SectionProductForm>
 
                 {submitError && (
                     <p className="mx-6 mb-4 rounded-md border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-700">

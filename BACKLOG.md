@@ -6,10 +6,6 @@
 [ ] Añadir icon y button de edit y delete en Product
 [ ] Añadir statusStock
 
-[ ] Finalizar diseño modalProductForm - Could - L
-[ ] Verificar hook modalProductForm
-[ ] Añadir seccion de expiricy y stock en modalProductForm
-
 
 ## BACKLOG
 ### Server
@@ -49,6 +45,9 @@
 [•] Crear modal añadir productos basica en frontend - Must
 [•] Crear modal editar productos basica en frontend - Must
 [•] Crear modal eliminar productos basica en frontend - Must
+[•] Finalizar diseño modalProductForm - Could - L
+[•] Verificar hook modalProductForm - Could
+[•] Añadir seccion de expiricy y stock en modalProductForm - Could
 [ ] Finalizar diseño pagina de productos - Could
 [ ] Decidir baja logica (active: false) vs borrado fisico - Should
 [ ] Agregar buscador/paginado a la tabla (1903 productos) - Should
