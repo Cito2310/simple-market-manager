@@ -1,10 +1,12 @@
 import { useCallback, useState } from "react";
 import type { ProductApi } from "@shared/types/Product";
 import { useProductDelete } from "./useProductDelete";
+import { useProductFilters } from "./useProductFilters";
 import { useProducts } from "./useProducts";
 
 export const useProductPage = () => {
     const { products, status, error } = useProducts();
+    const filters = useProductFilters(products);
     const deletion = useProductDelete();
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [editing, setEditing] = useState<ProductApi | undefined>(undefined);
@@ -21,5 +23,16 @@ export const useProductPage = () => {
 
     const closeModal = useCallback((): void => setIsModalOpen(false), []);
 
-    return { products, status, error, isModalOpen, editing, openCreate, openEdit, closeModal, ...deletion };
+    return {
+        products,
+        status,
+        error,
+        isModalOpen,
+        editing,
+        openCreate,
+        openEdit,
+        closeModal,
+        ...deletion,
+        ...filters
+    };
 };

@@ -1,5 +1,6 @@
 import { ConfirmDialog } from "../../shared/components/ConfirmDialog";
 import { ModalProductForm } from "./components/ModalProductForm";
+import { ProductFilters } from "./components/ProductFilters";
 import { ProductTable } from "./components/ProductTable";
 import { useProductPage } from "./hooks/useProductPage";
 
@@ -18,7 +19,13 @@ export const ProductPage = () => {
         deleteError,
         requestDelete,
         cancelDelete,
-        confirmDelete
+        confirmDelete,
+        filters,
+        filtered,
+        categoryOptions,
+        setSearch,
+        setSection,
+        setCategory
     } = useProductPage();
 
     return (
@@ -27,7 +34,9 @@ export const ProductPage = () => {
                 <div>
                     <h1 className="text-2xl font-semibold capitalize text-slate-900">productos</h1>
                     <span className="text-sm text-slate-500">
-                        {products.length} {products.length === 1 ? "producto" : "productos"}
+                        {filtered.length === products.length
+                            ? `${products.length} ${products.length === 1 ? "producto" : "productos"}`
+                            : `${filtered.length} de ${products.length} productos`}
                     </span>
                 </div>
                 <button
@@ -38,6 +47,14 @@ export const ProductPage = () => {
                     Nuevo producto
                 </button>
             </header>
+
+            <ProductFilters
+                filters={filters}
+                categoryOptions={categoryOptions}
+                setSearch={setSearch}
+                setSection={setSection}
+                setCategory={setCategory}
+            />
 
             {status === "loading" && (
                 <p className="rounded-lg border border-slate-200 bg-white px-4 py-8 text-center text-slate-500">
@@ -57,7 +74,15 @@ export const ProductPage = () => {
                 </p>
             )}
 
-            {status === "succeeded" && products.length > 0 && ( <ProductTable openEdit={openEdit} products={products} requestDelete={requestDelete} /> )}
+            {status === "succeeded" && products.length > 0 && filtered.length === 0 && (
+                <p className="rounded-lg border border-dashed border-slate-300 bg-white px-4 py-12 text-center text-slate-500">
+                    Ningun producto coincide con el filtro.
+                </p>
+            )}
+
+            {status === "succeeded" && filtered.length > 0 && (
+                <ProductTable openEdit={openEdit} products={filtered} requestDelete={requestDelete} />
+            )}
 
             {isModalOpen && <ModalProductForm product={editing} onClose={closeModal} />}
 
