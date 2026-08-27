@@ -16,3 +16,6 @@ export const readTickets = (): Ticket[] => {
 export const saveTicket = (ticket: Ticket): void => {
     localStorage.setItem(STORAGE_KEY, JSON.stringify([...readTickets(), ticket]));
 };
+
+// Los ultimos primero: lo que se busca es casi siempre la venta recien hecha
+export const readRecentTickets = (limit: number): Ticket[] => readTickets().slice(-limit).reverse();

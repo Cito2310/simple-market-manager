@@ -1,13 +1,15 @@
+import type { RequestStatus } from "@shared/types/Request";
 import type { TicketLine } from "@shared/types/Ticket";
 import { formatPrice } from "../../../shared/helpers/formatPrice";
 import { formatQuantity } from "../posFormat";
 
 interface TicketTableProps {
     lines: TicketLine[];
+    status: RequestStatus;
     onRemove: (productId: string) => void;
 }
 
-export const TicketTable = ({ lines, onRemove }: TicketTableProps) => (
+export const TicketTable = ({ lines, status, onRemove }: TicketTableProps) => (
     <div className="min-h-0 flex-1 overflow-y-auto rounded-lg border border-slate-200 bg-white">
         <table className="w-full text-left text-sm">
             <thead className="sticky top-0 border-b border-slate-200 bg-slate-50 text-slate-600">
@@ -23,7 +25,9 @@ export const TicketTable = ({ lines, onRemove }: TicketTableProps) => (
                 {lines.length === 0 && (
                     <tr>
                         <td colSpan={5} className="px-4 py-10 text-center text-slate-400">
-                            Escanea un producto para empezar la venta
+                            {status === "loading"
+                                ? "Cargando productos..."
+                                : "Escanea un producto para empezar la venta"}
                         </td>
                     </tr>
                 )}

@@ -6,8 +6,8 @@ import { addProductToLines } from "../posOperations";
 export const useTicketLines = () => {
     const [lines, setLines] = useState<TicketLine[]>([]);
 
-    const addProduct = useCallback((product: Product): void => {
-        setLines((current) => addProductToLines(current, product));
+    const addProduct = useCallback((product: Product, quantity = 1): void => {
+        setLines((current) => addProductToLines(current, product, quantity));
     }, []);
 
     const removeLine = useCallback((productId: string): void => {

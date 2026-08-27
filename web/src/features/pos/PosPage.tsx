@@ -1,38 +1,72 @@
-import { BarcodeInput } from "./components/BarcodeInput";
-import { TicketSummary } from "./components/TicketSummary";
+import { CancelSaleDialog } from "./components/CancelSaleDialog";
+import { CashModal } from "./components/CashModal";
+import { CheckoutModal } from "./components/CheckoutModal";
+import { PosSidebar } from "./components/PosSidebar";
+import { ProductSearchModal } from "./components/ProductSearchModal";
+import { StockUpdateAlert } from "./components/StockUpdateAlert";
+import { TicketsModal } from "./components/TicketsModal";
 import { TicketTable } from "./components/TicketTable";
 import { usePosPage } from "./hooks/usePosPage";
 
 export const PosPage = () => {
-    const { lines, totals, status, barcode, removeLine, checkout } = usePosPage();
+    const {
+        lines,
+        totals,
+        status,
+        barcode,
+        cash,
+        search,
+        cancelSale,
+        cashRegister,
+        tickets,
+        stock,
+        removeLine,
+        checkout
+    } = usePosPage();
 
     return (
         <div className="flex h-full bg-slate-50">
             <section className="flex min-w-0 flex-1 flex-col px-6 py-6">
-                <header className="mb-4 flex items-center justify-between">
-                    <div>
-                        <h1 className="text-2xl font-semibold text-slate-900">Punto de venta</h1>
-                        <span className="text-sm text-slate-500">
-                            {status === "loading" ? "Cargando productos..." : "Turno manana"}
-                        </span>
-                    </div>
-                    <span className="text-sm text-slate-500">
-                        {lines.length} {lines.length === 1 ? "producto" : "productos"}
-                    </span>
-                </header>
+                {stock.failedProducts.length > 0 && (
+                    <StockUpdateAlert
+                        products={stock.failedProducts}
+                        onDismiss={stock.dismissFailures}
+                    />
+                )}
 
-                <BarcodeInput
-                    inputRef={barcode.inputRef}
-                    value={barcode.value}
-                    error={barcode.error}
-                    onChange={barcode.changeValue}
-                    onSubmit={barcode.submit}
-                />
-
-                <TicketTable lines={lines} onRemove={removeLine} />
+                <TicketTable lines={lines} status={status} onRemove={removeLine} />
             </section>
 
-            <TicketSummary totals={totals} canCheckout={lines.length > 0} onCheckout={checkout} />
+            <PosSidebar
+                ticketCount={lines.length}
+                totals={totals}
+                barcode={barcode}
+                cash={cash}
+                onSearch={search.open}
+                onCash={cashRegister.open}
+                onTickets={tickets.open}
+                onCancelSale={cancelSale.open}
+                onCheckout={checkout.open}
+            />
+
+            {search.isOpen && (
+                <ProductSearchModal onSelect={search.selectProduct} onClose={search.close} />
+            )}
+
+            {checkout.isOpen && <CheckoutModal totals={totals} checkout={checkout} />}
+
+            {cashRegister.isOpen && <CashModal cash={cashRegister} />}
+
+            {tickets.isOpen && <TicketsModal tickets={tickets} />}
+
+            {cancelSale.isOpen && (
+                <CancelSaleDialog
+                    ticketCount={lines.length}
+                    total={totals.total}
+                    onConfirm={cancelSale.confirm}
+                    onCancel={cancelSale.close}
+                />
+            )}
         </div>
     );
 };
