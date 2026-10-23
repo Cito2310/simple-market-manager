@@ -3,7 +3,6 @@ import type { HydratedDocument } from "mongoose";
 import { SECTIONS } from "../../../../shared/types/Category.js";
 import type { CategoryMongo, Subcategory } from "../../../../shared/types/Category.js";
 
-// Documento hidratado sobre la forma compartida; el schema se tipa con los datos crudos
 export type CategoryDocument = HydratedDocument<CategoryMongo>;
 
 const subcategorySchema = new Schema<Subcategory>(

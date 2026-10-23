@@ -3,7 +3,6 @@ import type { HydratedDocument } from "mongoose";
 import type { ProductMongo } from "../../../../shared/types/Product.js";
 import { detailsSchema, sellSchema, inventorySchema } from "./product.schemas.js";
 
-// Documento hidratado sobre la forma compartida; el schema se tipa con los datos crudos
 export type ProductDocument = HydratedDocument<ProductMongo>;
 
 const productSchema = new Schema<ProductMongo>(

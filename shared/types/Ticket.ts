@@ -1,4 +1,4 @@
-import type { Promotion, SizeUnit } from "./Product.js";
+import type { SizeUnit } from "./Product.js";
 
 export const PAYMENT_METHODS = ["cash", "transfer", "debit", "credit", "qr"] as const;
 
@@ -24,7 +24,6 @@ export interface TicketLine {
     sizeUnit: SizeUnit;
     cost: number;
     unitPrice: number;
-    appliedPromotion?: Promotion;
     total: number;
 }
 

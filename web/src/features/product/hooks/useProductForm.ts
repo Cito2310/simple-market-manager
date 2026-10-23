@@ -171,7 +171,7 @@ export const useProductForm = (product: ProductApi | undefined, onClose: () => v
                 await dispatch(
                     createProduct({
                         details,
-                        sell: { ...prices, promotions: [], weighable: values.weighable },
+                        sell: { ...prices, weighable: values.weighable },
                         inventory,
                         active: values.active,
                         createdBy: CURRENT_USER,

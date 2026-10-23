@@ -35,15 +35,7 @@ export const TicketDetail = ({ ticket }: TicketDetailProps) => {
                             {formatQuantity(line.quantity, line.sizeUnit)}
                         </span>
 
-                        <span className="min-w-0 flex-1">
-                            <span className="block truncate capitalize text-slate-700">{line.name}</span>
-                            {line.appliedPromotion && (
-                                <span className="block text-xs text-emerald-700">
-                                    Promo {line.appliedPromotion.minQuantity}x{" "}
-                                    {formatPrice(line.appliedPromotion.pricePerUnit)}
-                                </span>
-                            )}
-                        </span>
+                        <span className="min-w-0 flex-1 truncate capitalize text-slate-700">{line.name}</span>
 
                         <span className="w-24 shrink-0 text-right tabular-nums text-slate-500">
                             {formatPrice(line.unitPrice)}
@@ -64,7 +56,7 @@ export const TicketDetail = ({ ticket }: TicketDetailProps) => {
 
                 {discount > 0 && (
                     <div className="flex justify-between text-emerald-700">
-                        <span>Promociones</span>
+                        <span>Descuento</span>
                         <span className="tabular-nums">-{formatPrice(discount)}</span>
                     </div>
                 )}

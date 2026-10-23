@@ -1,4 +1,4 @@
-import type { Product, Promotion } from "@shared/types/Product";
+import type { Product } from "@shared/types/Product";
 import type { Payment, Ticket, TicketLine } from "@shared/types/Ticket";
 
 export interface TicketTotals {
@@ -49,17 +49,7 @@ export const buildBarcodeIndex = (products: Product[]): Map<string, Product> => 
     return index;
 };
 
-// De las promociones que la cantidad alcanza se aplica la más conveniente para el cliente
-export const pickPromotion = (promotions: Promotion[], quantity: number): Promotion | undefined =>
-    promotions
-        .filter((promotion) => quantity >= promotion.minQuantity)
-        .reduce<Promotion | undefined>(
-            (best, promotion) => (!best || promotion.pricePerUnit < best.pricePerUnit ? promotion : best),
-            undefined
-        );
-
 export const buildTicketLine = (product: Product, quantity: number): TicketLine => {
-    const appliedPromotion = pickPromotion(product.sell.promotions ?? [], quantity);
     const unitPrice = product.sell.salePrice;
 
     return {
@@ -70,8 +60,7 @@ export const buildTicketLine = (product: Product, quantity: number): TicketLine 
         sizeUnit: product.sell.weighable ? product.details.sizeUnit : "unit",
         cost: product.sell.cost,
         unitPrice,
-        appliedPromotion,
-        total: roundPrice(quantity * (appliedPromotion?.pricePerUnit ?? unitPrice))
+        total: roundPrice(quantity * unitPrice)
     };
 };
 

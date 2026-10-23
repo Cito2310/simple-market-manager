@@ -1,14 +1,6 @@
 import { Schema } from "mongoose";
 import { SIZE_UNITS } from "../../../../shared/types/Product.js";
-import type { Promotion, Batch, Details, Sell, Inventory } from "../../../../shared/types/Product.js";
-
-export const promotionSchema = new Schema<Promotion>(
-    {
-        minQuantity: { type: Number, required: true, min: 1 },
-        pricePerUnit: { type: Number, required: true, min: 0 }
-    },
-    { _id: false }
-);
+import type { Batch, Details, Sell, Inventory } from "../../../../shared/types/Product.js";
 
 export const batchSchema = new Schema<Batch>({
     quantity: { type: Number, required: true, min: 0 },
@@ -33,7 +25,6 @@ export const sellSchema = new Schema<Sell>(
     {
         cost: { type: Number, required: true, min: 0 },
         salePrice: { type: Number, required: true, min: 0 },
-        promotions: { type: [promotionSchema], default: [] },
         weighable: { type: Boolean, default: false }
     },
     { _id: false }

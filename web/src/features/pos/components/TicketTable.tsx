@@ -35,12 +35,6 @@ export const TicketTable = ({ lines, status, onRemove }: TicketTableProps) => (
                     <tr key={line.productId} className="text-slate-700">
                         <td className="px-4 py-3">
                             <span className="capitalize">{line.name}</span>
-                            {line.appliedPromotion && (
-                                <span className="ml-2 rounded bg-emerald-50 px-1.5 py-0.5 text-xs font-medium text-emerald-700">
-                                    {line.appliedPromotion.minQuantity}x{" "}
-                                    {formatPrice(line.appliedPromotion.pricePerUnit)}
-                                </span>
-                            )}
                         </td>
                         <td className="px-4 py-3 text-right tabular-nums">
                             {formatQuantity(line.quantity, line.sizeUnit)}

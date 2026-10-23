@@ -9,7 +9,6 @@ const hasUniqueValues = (values: string[]): boolean => new Set(values).size === 
 
 export const idRules = param("id").isMongoId().withMessage("Invalid category id");
 
-// Los duplicados se revisan sobre el body ya saneado por las reglas de arriba
 export const categoryRules = [
     body("section").isIn(SECTIONS).withMessage(`Section must be one of: ${SECTIONS.join(", ")}`),
     stringRules("name", "Name", NAME_OPTIONS),

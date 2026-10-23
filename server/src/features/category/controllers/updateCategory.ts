@@ -2,7 +2,7 @@ import type { Request, Response } from "express";
 import type { CategoryApi } from "../../../../../shared/types/Category.js";
 import { CategoryModel } from "../category.model.js";
 
-// El front manda la categoría completa, con _id y __v incluidos
+// El front manda el category completo, con _id y __v incluidos
 export const updateCategory = async (
     req: Request<{ id: string }, unknown, CategoryApi>,
     res: Response
@@ -13,10 +13,8 @@ export const updateCategory = async (
         return;
     }
 
-    // Los campos que maneja el server nunca se toman del body
     const { _id, __v, createdBy, createdAt, updatedAt, ...incoming } = req.body;
 
-    // Rechaza ediciones hechas sobre una versión que ya no es la actual
     if (__v !== undefined && __v !== category.__v) {
         res.status(409).json({ message: "Category was modified by someone else" });
         return;

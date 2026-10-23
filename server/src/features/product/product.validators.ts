@@ -1,16 +1,13 @@
 import { body, param } from "express-validator";
 import { SIZE_UNITS } from "../../../../shared/types/Product.js";
-import type { Promotion } from "../../../../shared/types/Product.js";
 import { stringRules } from "../../helpers/validationRules.js";
 
 const NAME_OPTIONS = { min: 2, max: 60 };
 
-// Hay productos cargados con "-" como marca cuando no tienen una
 const BRAND_OPTIONS = { min: 1, max: 50 };
 
 const CATEGORY_OPTIONS = { min: 2, max: 50 };
 
-// Cubre desde EAN-8 hasta los codigos largos que imprime la balanza
 const BARCODE_OPTIONS = { min: 4, max: 24 };
 
 const hasUniqueValues = (values: unknown[]): boolean => new Set(values).size === values.length;
@@ -36,30 +33,6 @@ export const productRules = [
     body("sell.cost").isFloat({ min: 0 }).withMessage("Cost must be 0 or greater"),
     body("sell.salePrice").isFloat({ min: 0 }).withMessage("Sale price must be 0 or greater"),
     body("sell.weighable").optional().isBoolean().withMessage("Weighable must be a boolean"),
-    body("sell.promotions").optional().isArray().withMessage("Promotions must be an array"),
-    body("sell.promotions.*.minQuantity")
-        .isFloat({ min: 1 })
-        .withMessage("Promotion min quantity must be 1 or greater"),
-    body("sell.promotions.*.pricePerUnit")
-        .isFloat({ min: 0 })
-        .withMessage("Promotion price per unit must be 0 or greater"),
-
-    // Con dos promociones del mismo minimo no hay forma de decidir cual gana
-    body("sell.promotions")
-        .optional()
-        .custom((promotions: Promotion[]) =>
-            hasUniqueValues(promotions.map((promotion) => promotion.minQuantity))
-        )
-        .withMessage("Promotions must have a different min quantity"),
-
-    // Una promo mas cara que el precio de lista le subiria el total al cliente en la caja
-    body("sell.promotions")
-        .optional()
-        .custom((promotions: Promotion[], { req }) => {
-            const salePrice = Number(req.body?.sell?.salePrice);
-            return promotions.every((promotion) => promotion.pricePerUnit <= salePrice);
-        })
-        .withMessage("Promotion price per unit must not be greater than the sale price"),
 
     body("inventory").optional().isObject().withMessage("Inventory must be an object"),
     body("inventory.batches").optional().isArray().withMessage("Batches must be an array"),
